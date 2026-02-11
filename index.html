@@ -11,25 +11,54 @@
 </head>
 <body class="bg-gray-50">
     <div id="root"></div>
+
     <script type="text/babel">
         const { useState } = React;
 
         const DiagnosticTool = () => {
             const [step, setStep] = useState('start');
-            const [answers, setAnswers] = useState([]);
-
-            const startDiag = () => setStep('q1');
+            
+            // 職種ごとの特徴データ
+            const results = {
+                sales: { title: "営業・プランナー", desc: "顧客の想いを形にする司令塔。提案力と調整力が武器です。" },
+                design: { title: "デザイナー", desc: "空間を美しく彩るクリエイター。独自のセンスと技術で魅了します。" },
+                production: { title: "制作・施工管理", desc: "図面を現実に変えるプロ。現場をまとめ上げる実行力が魅力です。" }
+            };
 
             return (
-                <div class="max-w-md mx-auto mt-10 p-6 bg-white rounded-xl shadow-lg text-center">
+                <div className="max-w-md mx-auto my-10 p-8 bg-white rounded-2xl shadow-xl text-center border border-gray-100">
                     {step === 'start' ? (
                         <div>
-                            <h1 class="text-2xl font-bold mb-4 text-blue-800">ディスプレイ業界<br/>キャリア適性診断</h1>
-                            <p class="mb-6 text-gray-600">15年以上の知見から、あなたにぴったりの職種を導き出します。</p>
-                            <button onClick={startDiag} class="bg-blue-600 text-white px-8 py-3 rounded-full font-bold hover:bg-blue-700 transition">診断を始める</button>
+                            <div className="text-4xl mb-4">🏛️</div>
+                            <h1 className="text-2xl font-bold mb-4 text-blue-900">ディスプレイ業界<br/>キャリア適性診断</h1>
+                            <p className="mb-8 text-gray-600 leading-relaxed">
+                                あなたの強みを活かせる職種はどこ？<br/>
+                                15年以上の業界知見からアドバイスします。
+                            </p>
+                            <button 
+                                onClick={() => setStep('q1')}
+                                className="w-full bg-blue-600 text-white py-4 rounded-xl font-bold text-lg hover:bg-blue-700 shadow-lg active:transform active:scale-95 transition"
+                            >
+                                診断を始める
+                            </button>
+                        </div>
+                    ) : step === 'q1' ? (
+                        <div>
+                            <h2 className="text-xl font-bold mb-6">大切にしたいのは？</h2>
+                            <div className="space-y-3">
+                                <button onClick={() => setStep('result-sales')} className="w-full p-4 border-2 border-blue-100 rounded-xl hover:bg-blue-50 text-left font-medium">🤝 顧客との信頼関係と提案</button>
+                                <button onClick={() => setStep('result-design')} className="w-full p-4 border-2 border-blue-100 rounded-xl hover:bg-blue-50 text-left font-medium">🎨 独創的な空間デザイン</button>
+                                <button onClick={() => setStep('result-production')} className="w-full p-4 border-2 border-blue-100 rounded-xl hover:bg-blue-50 text-left font-medium">🛠️ モノづくりの現場と完成</button>
+                            </div>
                         </div>
                     ) : (
-                        <p class="text-lg">診断コンテンツを読み込んでいます...</p>
+                        <div>
+                            <div className="text-4xl mb-4">🏆</div>
+                            <h2 className="text-sm font-bold text-blue-600 mb-1">あなたにぴったりの職種は</h2>
+                            <h3 className="text-2xl font-bold mb-4">{results[step.split('-')[1]].title}</h3>
+                            <p className="mb-8 text-gray-600">{results[step.split('-')[1]].desc}</p>
+                            <button onClick={() => setStep('start')} className="text-blue-600 font-semibold underline">もう一度診断する</button>
+                        </div>
                     )}
                 </div>
             );
